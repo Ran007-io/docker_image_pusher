@@ -1,1 +1,2 @@
 nvidia/cuda:11.4.3-cudnn8-devel-ubuntu20.04
+ultralytics/ultralytics:latest-python

@@ -1,1 +1,1 @@
-registry:2
+qwenllm/qwenvl:2.5-cu121

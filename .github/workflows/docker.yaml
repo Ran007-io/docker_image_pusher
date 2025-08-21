@@ -106,9 +106,21 @@ jobs:
                 continue
             fi
         
-            echo "docker pull $line"
-            docker pull $line
-            platform=$(echo "$line" | awk -F'--platform[ =]' '{if (NF>1) print $2}' | awk '{print $1}')
+            # 提取平台信息
+            platform=$(echo "$line" | grep -oP '(?<=--platform[ =])[^ ]+')
+        
+            # 获取真正的镜像名称（去掉 --platform）
+            image=$(echo "$line" | awk '{print $NF}')
+            image="${image%%@*}"
+        
+            if [ -n "$platform" ]; then
+                echo "docker pull --platform=$platform $image"
+                docker pull --platform=$platform $image
+            else
+                echo "docker pull $image"
+                docker pull $image
+            fi
+        
             echo "platform is $platform"
             # 如果存在架构信息 将架构信息拼到镜像名称前面
             if [ -z "$platform" ]; then
